@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Club-Com</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#080E1E;font-family:'Inter',sans-serif;color:#F0F4FF;min-height:100vh;}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#080E1E}::-webkit-scrollbar-thumb{background:#1A2740;border-radius:4px}
+
+/* Cards */
+.card{background:#0D1628;border:1px solid #1A2740;border-radius:18px;padding:22px;margin-bottom:14px;transition:border-color .2s,box-shadow .2s;}
+.card:hover{border-color:#243350;box-shadow:0 4px 30px #00000033;}
+
+/* Buttons */
+.obtn{background:#F97316;color:#fff;border:none;border-radius:11px;padding:10px 20px;font-family:'Inter',sans-serif;font-weight:600;cursor:pointer;font-size:14px;transition:background .18s;}
+.obtn:hover{background:#EA6906;}
+.obtn.full{width:100%;padding:13px;}
+.gbtn{background:none;border:1px solid #1A2740;color:#8A9BBF;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;padding:7px 14px;border-radius:20px;transition:all .18s;}
+.gbtn:hover{color:#F0F4FF;border-color:#243350;background:#111E35;}
+.gbtn.active{background:#111E35;color:#F0F4FF;border-color:#243350;}
+.gbtn.full{width:100%;padding:11px;text-align:center;}
+.del-btn{background:none;border:none;cursor:pointer;color:#3A4E70;font-size:14px;padding:3px 7px;border-radius:6px;transition:all .15s;}
+.del-btn:hover{color:#EF4444;background:rgba(239,68,68,.1);}
+.bbtn{background:none;border:1px solid #1A2740;color:#8A9BBF;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;padding:7px 16px;border-radius:20px;margin-bottom:22px;transition:all .2s;}
+.bbtn:hover{color:#F0F4FF;border-color:#243350;}
+.react-btn{background:#111E35;border:1px solid #1A2740;border-radius:20px;padding:5px 12px;cursor:pointer;font-size:14px;transition:all .15s;color:#C8D8F8;display:inline-flex;align-items:center;gap:5px;font-family:'Inter',sans-serif;}
+.react-btn:hover{background:#1A2A44;transform:scale(1.05);}
+.react-btn.active{background:rgba(249,115,22,.13);border-color:#F97316;}
+
+/* Inputs */
+.ifield{background:#111E35;border:1px solid #1A2740;border-radius:11px;padding:10px 14px;color:#F0F4FF;font-family:'Inter',sans-serif;font-size:14px;width:100%;outline:none;transition:border-color .2s;}
+.ifield:focus{border-color:#F97316;}
+.ifield::placeholder{color:#3A4E70;}
+textarea.ifield{resize:none;}
+
+/* Nav */
+.nav-bar{border-bottom:1px solid #1A2740;padding:0 24px;display:flex;align-items:center;gap:6px;position:sticky;top:0;background:rgba(8,14,30,.95);backdrop-filter:blur(12px);z-index:1000;height:54px;}
+.logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;letter-spacing:-.5px;margin-right:20px;text-decoration:none;}
+.logo span.w{color:#F0F4FF;} .logo span.o{color:#F97316;}
+
+/* Login */
+.lcard{background:#0D1628;border:1px solid #1A2740;border-radius:14px;padding:14px 18px;cursor:pointer;display:flex;align-items:center;gap:14px;transition:all .18s;}
+.lcard:hover{background:#111E35;border-color:#F97316;transform:translateY(-1px);}
+.login-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+.login-box{width:100%;max-width:440px;}
+.logo-big{font-family:'Playfair Display',serif;font-size:50px;font-weight:900;letter-spacing:-2px;text-align:center;}
+.logo-big span.w{color:#F0F4FF;} .logo-big span.o{color:#F97316;}
+
+/* Misc */
+.pill{display:inline-flex;align-items:center;padding:4px 11px;border-radius:20px;font-size:11px;font-weight:500;}
+.tag-pill{background:rgba(249,115,22,.1);color:#F97316;border:1px solid rgba(249,115,22,.2);}
+.muted{color:#3A4E70;}
+.serif{font-family:'Playfair Display',serif;}
+.content{max-width:760px;margin:0 auto;padding:30px 24px;}
+.flex{display:flex;} .flex-col{flex-direction:column;} .gap-8{gap:8px;} .gap-10{gap:10px;} .gap-12{gap:12px;} .gap-14{gap:14px;}
+.items-center{align-items:center;} .items-start{align-items:flex-start;}
+.flex-1{flex:1;} .w-full{width:100%;}
+.text-center{text-align:center;}
+.mb-4{margin-bottom:4px;} .mb-8{margin-bottom:8px;} .mb-10{margin-bottom:10px;} .mb-12{margin-bottom:12px;} .mb-14{margin-bottom:14px;} .mb-16{margin-bottom:16px;} .mb-20{margin-bottom:20px;} .mb-22{margin-bottom:22px;} .mb-24{margin-bottom:24px;} .mt-4{margin-top:4px;} .mt-6{margin-top:6px;} .mt-12{margin-top:12px;} .mt-14{margin-top:14px;} .mt-16{margin-top:16px;}
+.shrink-0{flex-shrink:0;}
+.fw-600{font-weight:600;} .fw-700{font-weight:700;}
+.fs-11{font-size:11px;} .fs-12{font-size:12px;} .fs-13{font-size:13px;} .fs-14{font-size:14px;} .fs-20{font-size:20px;} .fs-22{font-size:22px;} .fs-26{font-size:26px;} .fs-28{font-size:28px;}
+.lh-5{line-height:1.5;} .lh-7{line-height:1.7;}
+.notif{position:fixed;top:20px;right:20px;background:#F97316;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 8px 24px rgba(249,115,22,.4);animation:sli .3s ease;pointer-events:none;}
+@keyframes sli{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.anim{animation:fadeUp .28s ease;}
+.hidden{display:none!important;}
+
+/* Avatar */
+.avatar{border-radius:10px;object-fit:cover;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;}
+
+/* Cover */
+.cover-box{border-radius:20px;margin-bottom:-48px;position:relative;overflow:hidden;background-size:cover;background-position:center;}
+.cover-emoji{position:absolute;right:20px;bottom:-8px;font-size:110px;opacity:.08;line-height:1;}
+.cover-btn{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.6);color:#F0F4FF;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:5px 11px;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;}
+
+/* Comments */
+.crow{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid #111E35;}
+
+/* Images in posts */
+.post-img-grid{display:grid;gap:8px;margin-top:12px;}
+.post-img-grid.one img{border-radius:12px;width:100%;max-height:360px;object-fit:cover;border:1px solid #1A2740;display:block;}
+.post-img-grid.two{grid-template-columns:1fr 1fr;}
+.post-img-grid.two img,.post-img-grid.three img{border-radius:10px;width:100%;height:180px;object-fit:cover;border:1px solid #1A2740;display:block;}
+.post-img-grid.three{grid-template-columns:1fr 1fr;}
+.post-img-grid.three img:first-child{grid-column:1/-1;height:220px;}
+
+/* Link preview */
+.link-prev{display:flex;align-items:center;gap:10px;background:#111E35;border:1px solid #1A2740;border-radius:11px;padding:12px 14px;margin-top:12px;text-decoration:none;transition:border-color .2s;overflow:hidden;}
+.link-prev:hover{border-color:#F97316;}
+
+/* Upload thumbs */
+.upload-strip{display:flex;gap:8px;flex-wrap:wrap;}
+.upload-thumb{position:relative;width:72px;height:72px;border-radius:10px;overflow:hidden;border:1px solid #1A2740;flex-shrink:0;}
+.upload-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.upload-thumb .rm{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.75);color:#fff;border:none;border-radius:50%;width:18px;height:18px;cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center;line-height:1;}
+.add-img-btn{width:72px;height:72px;border-radius:10px;border:1.5px dashed #243350;background:#111E35;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:#3A4E70;font-size:10px;gap:3px;transition:border-color .2s;font-family:'Inter',sans-serif;}
+.add-img-btn:hover{border-color:#F97316;color:#F97316;}
+
+/* Club dir grid */
+.dir-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.dir-card{background:#0D1628;border:1px solid #1A2740;border-radius:18px;padding:20px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.dir-card:hover{border-color:var(--c);}
+.dir-corner{position:absolute;top:0;right:0;width:70px;height:70px;border-radius:0 18px 0 70px;opacity:.07;}
+
+/* Stat grid */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:28px;}
+.stat-box{background:#111E35;border:1px solid #1A2740;border-radius:14px;padding:16px 10px;text-align:center;}
+
+/* Reactions row */
+.reactions-row{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0;}
+
+/* Password strength */
+.pw-wrap{position:relative;}
+.pw-count{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;pointer-events:none;}
+
+/* Profile identity row */
+.profile-id{display:flex;align-items:flex-end;gap:16px;padding:0 8px;margin-bottom:18px;}
+.avatar-edit-wrap{position:relative;z-index:1;}
+.avatar-edit-btn{position:absolute;bottom:2px;right:2px;background:#080E1E;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid #243350;font-size:12px;}
+
+/* Error box */
+.err-box{color:#F97316;font-size:13px;padding:8px 12px;background:rgba(249,115,22,.09);border-radius:8px;}
+
+/* You badge */
+.you-badge{font-size:11px;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.3);color:#F97316;border-radius:20px;padding:4px 11px;}
+
+/* Nav identity */
+.nav-identity{display:flex;align-items:center;gap:8px;padding:4px 10px 4px 5px;border-radius:20px;cursor:pointer;}
+.nav-logout{background:none;border:1px solid #1A2740;color:#3A4E70;border-radius:20px;padding:5px 12px;cursor:pointer;font-size:12px;font-family:'Inter',sans-serif;transition:all .2s;}
+.nav-logout:hover{color:#EF4444;border-color:rgba(239,68,68,.4);}
+
+/* Student login card header */
+.student-header{background:#0D1628;border:1px solid #243350;border-radius:18px;padding:24px;margin-bottom:16px;text-align:center;}
+</style>
+</head>
+<body>
+<div id="notif-area"></div>
+<div id="app"></div>
+
+<script>
+// ─── STATE ────────────────────────────────────────────────────────────────────
+const REACTIONS = ["🔥","❤️","👏","😮","🤝"];
+
+let state = {
+  clubs: [
+    {id:1,name:"Photography Club",emoji:"📸",color:"#F97316",founded:"2018",president:"Amira Khelil",bio:"We explore the world through lenses — from film to digital. Every Wednesday is an adventure in light and composition.",tags:["Visual Arts","Outdoor","Workshops"],coverGradient:"linear-gradient(135deg,#F97316 0%,#FB923C 40%,#0D1628 100%)",password:"photo123",avatar:null,cover:null},
+    {id:2,name:"Robotics Club",emoji:"🤖",color:"#38BDF8",founded:"2020",president:"Yassine Trabelsi",bio:"Building the future one servo motor at a time. We design, code, and compete with robots across North Africa.",tags:["Engineering","Coding","Competitions"],coverGradient:"linear-gradient(135deg,#38BDF8 0%,#0EA5E9 40%,#080E1E 100%)",password:"robot123",avatar:null,cover:null},
+    {id:3,name:"Drama Society",emoji:"🎭",color:"#A78BFA",founded:"2015",president:"Fatma Ben Ali",bio:"From Molière to original scripts, we breathe life into stories. No experience needed — just passion.",tags:["Performing Arts","Creative","Community"],coverGradient:"linear-gradient(135deg,#A78BFA 0%,#8B5CF6 40%,#080E1E 100%)",password:"drama123",avatar:null,cover:null},
+    {id:4,name:"Chess Club",emoji:"♟️",color:"#34D399",founded:"2016",president:"Omar Mansouri",bio:"Strategy, patience, and brilliance. Weekly tournaments and national championship preparation.",tags:["Strategy","Competitions","Tournaments"],coverGradient:"linear-gradient(135deg,#34D399 0%,#10B981 40%,#080E1E 100%)",password:"chess123",avatar:null,cover:null},
+    {id:5,name:"Music Collective",emoji:"🎵",color:"#FB7185",founded:"2017",president:"Sarra Chaabane",bio:"Jazz, indie, traditional — we play it all. Wednesday jams open to anyone with an instrument.",tags:["Music","Open Jams","Concerts"],coverGradient:"linear-gradient(135deg,#FB7185 0%,#F43F5E 40%,#080E1E 100%)",password:"music123",avatar:null,cover:null},
+    {id:6,name:"Debate Union",emoji:"🎤",color:"#FBBF24",founded:"2019",president:"Rim Jebali",bio:"Oxford-style debates, MUN prep, and rhetoric workshops every week. Sharpen your mind.",tags:["Public Speaking","Critical Thinking","MUN"],coverGradient:"linear-gradient(135deg,#FBBF24 0%,#F59E0B 40%,#080E1E 100%)",password:"debate123",avatar:null,cover:null},
+  ],
+  posts: [
+    {id:1,clubId:1,title:"Golden Hour Portrait Walk",description:"We'll meet at the main fountain at 5 PM for a golden hour portrait session. Bring any camera — even your phone works!",time:"5:00 PM",location:"Main Fountain",date:"Wed, Feb 19",images:[],link:"",reactions:{"🔥":8,"❤️":5,"👏":3},userReactions:{},comments:[{id:1,authorId:"club-3",authorType:"club",text:"This sounds amazing, some of our actors might join for portfolio shots!",time:"2h ago"},{id:2,authorId:"club-5",authorType:"club",text:"We could collab — live music while you shoot 🎶",time:"1h ago"}]},
+    {id:2,clubId:2,title:"Autonomous Bot Demo + Coding Sprint",description:"Demoing our line-following bot then a coding sprint to improve pathfinding. All skill levels welcome!",time:"3:00 PM",location:"Engineering Lab B2",date:"Wed, Feb 19",images:[],link:"https://github.com/robotics-club/pathfinder",reactions:{"🔥":12,"👏":7,"🤝":4},userReactions:{},comments:[{id:1,authorId:"club-4",authorType:"club",text:"Could you run the bot on a chess board pattern? 👀",time:"3h ago"}]},
+    {id:3,clubId:5,title:"Open Jam Session",description:"Every Wednesday we open the music room to jam. Bring your instrument or just listen. Workshopping 2 new original songs.",time:"6:00 PM",location:"Arts Building Room 104",date:"Wed, Feb 19",images:[],link:"",reactions:{"❤️":15,"🔥":9,"😮":2},userReactions:{},comments:[]},
+  ],
+  students: [],
+  activeUser: null,
+  isClub: false,
+  view: "feed",      // feed | clubs | compose | profile
+  profileClubId: null,
+  loginMode: "choose", // choose | club-pick | club-pw | student
+  loginSelected: null,
+  loginPw: "",
+  loginError: "",
+  loginStudentName: "",
+  loginStudentPw: "",
+  composeForm: {title:"",description:"",time:"",location:"",link:"",images:[]},
+  expandedComments: {},
+  commentDrafts: {},
+};
+
+// ─── HELPERS ──────────────────────────────────────────────────────────────────
+function getClub(id){ return state.clubs.find(c=>c.id===id); }
+function getStudent(id){ return state.students.find(s=>s.id===id); }
+function isValidUrl(s){ try{new URL(s);return true;}catch{return false;} }
+function myKey(){ return state.isClub ? `club-${state.activeUser.id}` : state.activeUser.id; }
+
+function showNotif(msg){
+  const n=document.getElementById("notif-area");
+  n.innerHTML=`<div class="notif">${msg}</div>`;
+  setTimeout(()=>n.innerHTML="",2500);
+}
+
+function re(){ render(); }
+
+// ─── AVATAR HELPERS ───────────────────────────────────────────────────────────
+function clubAvatarHTML(club, size=40){
+  const r=Math.max(8,size*0.25);
+  const c=state.clubs.find(x=>x.id===club.id)||club;
+  if(c.avatar) return `<img src="${c.avatar}" style="width:${size}px;height:${size}px;border-radius:${r}px;object-fit:cover;flex-shrink:0;border:2px solid ${c.color}44;display:block;"/>`;
+  return `<div style="width:${size}px;height:${size}px;border-radius:${r}px;background:${c.color}22;border:2px solid ${c.color}55;display:flex;align-items:center;justify-content:center;font-size:${size*0.44}px;flex-shrink:0;">${c.emoji}</div>`;
+}
+function studentAvatarHTML(student, size=40){
+  const r=Math.max(8,size*0.25);
+  if(student.avatar) return `<img src="${student.avatar}" style="width:${size}px;height:${size}px;border-radius:${r}px;object-fit:cover;flex-shrink:0;display:block;"/>`;
+  return `<div style="width:${size}px;height:${size}px;border-radius:${r}px;background:#111E35;border:2px solid #243350;display:flex;align-items:center;justify-content:center;font-size:${size*0.4}px;flex-shrink:0;">🎓</div>`;
+}
+function activeAvatarHTML(size=26){
+  if(state.isClub) return clubAvatarHTML(state.activeUser,size);
+  return studentAvatarHTML(state.activeUser,size);
+}
+function authorHTML(comment, size=30){
+  if(comment.authorType==="club"){
+    const c=state.clubs.find(x=>x.id===parseInt(comment.authorId.replace("club-","")));
+    if(!c) return null;
+    return {av:clubAvatarHTML(c,size),name:c.name,color:c.color};
+  }
+  const s=getStudent(comment.authorId);
+  if(!s) return null;
+  return {av:studentAvatarHTML(s,size),name:s.name,color:"#8A9BBF"};
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function render(){
+  const app=document.getElementById("app");
+  if(!state.activeUser){ app.innerHTML=renderLogin(); bindLogin(); return; }
+  app.innerHTML=renderApp();
+  bindApp();
+}
+
+// ─── LOGIN ────────────────────────────────────────────────────────────────────
+function renderLogin(){
+  return `<div class="login-wrap">
+    <div class="login-box anim">
+      <div class="mb-24 text-center">
+        <div class="logo-big"><span class="w">Club</span><span class="o">-Com</span></div>
+        <div class="fs-13 mt-6" style="color:#3A4E70;">University Club Platform · Wednesday Edition</div>
+      </div>
+      ${renderLoginStep()}
+    </div>
+  </div>`;
+}
+
+function renderLoginStep(){
+  const m=state.loginMode;
+  if(m==="choose") return `
+    <div class="mb-8 text-center fs-12 muted" style="text-transform:uppercase;letter-spacing:1px;">Log in as</div>
+    <div class="flex flex-col gap-10">
+      <div class="lcard" onclick="loginGo('club-pick')">
+        <span style="font-size:28px;">🏛️</span>
+        <div><div class="fw-600 fs-14">Club Account</div><div class="fs-12 muted mt-4">Post & manage your club's activities</div></div>
+        <div style="margin-left:auto;color:#3A4E70;">›</div>
+      </div>
+      <div class="lcard" onclick="loginGo('student')">
+        <span style="font-size:28px;">🎓</span>
+        <div><div class="fw-600 fs-14">Student Account</div><div class="fs-12 muted mt-4">Browse & interact with club activities</div></div>
+        <div style="margin-left:auto;color:#3A4E70;">›</div>
+      </div>
+    </div>`;
+
+  if(m==="club-pick") return `
+    <div class="mb-14 text-center fs-12 muted" style="text-transform:uppercase;letter-spacing:1px;">Select your club</div>
+    <div class="flex flex-col gap-8">
+      ${state.clubs.map(c=>`
+        <div class="lcard" onclick="selectClub(${c.id})">
+          ${clubAvatarHTML(c,40)}
+          <div class="flex-1"><div class="fw-600 fs-14">${c.name}</div><div class="fs-11 muted mt-4">Since ${c.founded}</div></div>
+          <div style="color:#3A4E70;">›</div>
+        </div>`).join("")}
+    </div>
+    <button class="bbtn mt-14" onclick="loginGo('choose')">← Back</button>`;
+
+  if(m==="club-pw"){ const c=state.loginSelected; return `
+    <div style="background:#0D1628;border:1px solid ${c.color}44;border-radius:18px;padding:28px;margin-bottom:16px;text-align:center;">
+      ${clubAvatarHTML(c,72)}
+      <div class="serif fs-22 fw-700 mt-14">${c.name}</div>
+      <div class="fs-13 muted mt-6">Enter your club password</div>
+    </div>
+    <div class="flex flex-col gap-10">
+      <input class="ifield" type="password" placeholder="Password" id="club-pw-input" value="${state.loginPw}" oninput="state.loginPw=this.value;state.loginError='';" onkeydown="if(event.key==='Enter')doClubLogin()"/>
+      ${state.loginError?`<div class="err-box">${state.loginError}</div>`:""}
+      <button class="obtn full" onclick="doClubLogin()">Log in as ${c.name}</button>
+      <button class="gbtn full" onclick="loginGo('club-pick')">← Choose different club</button>
+    </div>`;}
+
+  if(m==="student") return `
+    <div class="student-header">
+      <div style="font-size:44px;margin-bottom:10px;">🎓</div>
+      <div class="serif fs-22 fw-700">Student Access</div>
+      <div class="fs-13 muted mt-6">Enter your name and choose a password to join</div>
+    </div>
+    <div class="flex flex-col gap-10">
+      <input class="ifield" placeholder="Your full name" id="st-name" value="${state.loginStudentName}" oninput="state.loginStudentName=this.value;state.loginError='';" />
+      <div class="pw-wrap">
+        <input class="ifield" type="password" placeholder="Password (min. 8 characters)" id="st-pw" value="${state.loginStudentPw}"
+          oninput="state.loginStudentPw=this.value;state.loginError='';updatePwCount();"
+          onkeydown="if(event.key==='Enter')doStudentLogin()"/>
+        <span class="pw-count" id="pw-count" style="color:${state.loginStudentPw.length>=8?'#34D399':'#3A4E70'};${state.loginStudentPw.length===0?'display:none':''}">${state.loginStudentPw.length}/8</span>
+      </div>
+      ${state.loginError?`<div class="err-box">${state.loginError}</div>`:""}
+      <div class="fs-12 lh-5" style="color:#3A4E70;">First time? Just enter your name and a password — your account is created automatically.<br>Coming back? Use the same name and password to log back in.</div>
+      <button class="obtn full" onclick="doStudentLogin()">Continue as Student</button>
+      <button class="gbtn full" onclick="loginGo('choose');state.loginStudentName='';state.loginStudentPw='';">← Back</button>
+    </div>`;
+}
+
+function loginGo(m){ state.loginMode=m; state.loginError=""; re(); }
+function selectClub(id){ state.loginSelected=state.clubs.find(c=>c.id===id); state.loginPw=""; state.loginError=""; state.loginMode="club-pw"; re(); }
+
+function doClubLogin(){
+  const c=state.loginSelected;
+  if(state.loginPw===c.password){ state.activeUser=c; state.isClub=true; state.view="feed"; re(); }
+  else{ state.loginError="Wrong password. Hint: clubname + '123'"; re(); setTimeout(()=>document.getElementById("club-pw-input")&&document.getElementById("club-pw-input").focus(),50); }
+}
+
+function doStudentLogin(){
+  const name=state.loginStudentName.trim();
+  if(!name){ state.loginError="Please enter your name."; re(); return; }
+  if(state.loginStudentPw.length<8){ state.loginError="Password must be at least 8 characters."; re(); return; }
+  const existing=state.students.find(s=>s.name.toLowerCase()===name.toLowerCase()&&s.password===state.loginStudentPw);
+  if(existing){ state.activeUser=existing; state.isClub=false; state.view="feed"; re(); return; }
+  const sameName=state.students.find(s=>s.name.toLowerCase()===name.toLowerCase());
+  if(sameName){ state.loginError="This name is already registered with a different password."; re(); return; }
+  const ns={id:"s"+Date.now(),name,password:state.loginStudentPw,avatar:null};
+  state.students.push(ns);
+  state.activeUser=ns; state.isClub=false; state.view="feed"; re();
+}
+
+function updatePwCount(){
+  const el=document.getElementById("pw-count");
+  const inp=document.getElementById("st-pw");
+  if(!el||!inp) return;
+  const len=inp.value.length;
+  el.textContent=len+"/8";
+  el.style.color=len>=8?"#34D399":"#3A4E70";
+  el.style.display=len===0?"none":"";
+}
+
+function bindLogin(){ setTimeout(()=>{ const f=document.querySelector(".ifield"); if(f)f.focus(); },50); }
+
+// ─── MAIN APP ─────────────────────────────────────────────────────────────────
+function currentClub(){ return state.isClub ? (state.clubs.find(c=>c.id===state.activeUser.id)||state.activeUser) : null; }
+
+function renderApp(){
+  return `
+    ${renderNav()}
+    <div class="content">
+      ${state.view==="feed"?renderFeed():""}
+      ${state.view==="clubs"?renderClubsDir():""}
+      ${state.view==="compose"&&state.isClub?renderCompose():""}
+      ${state.view==="profile"&&state.profileClubId?renderProfile():""}
+    </div>`;
+}
+
+function renderNav(){
+  const cc=currentClub();
+  const identityHTML = state.isClub && cc
+    ? `<div class="nav-identity" style="border:1px solid ${cc.color}44;background:${cc.color}11;" onclick="goProfile(${cc.id})">
+        ${clubAvatarHTML(cc,26)}<span class="fs-13 fw-600" style="color:${cc.color};">${cc.name}</span></div>`
+    : `<div class="nav-identity" style="border:1px solid #1A2740;background:#0D1628;">
+        ${studentAvatarHTML(state.activeUser,26)}<span class="fs-13" style="color:#8A9BBF;">${state.activeUser.name}</span></div>`;
+  return `<nav class="nav-bar">
+    <div class="logo"><span class="w">Club</span><span class="o">-Com</span></div>
+    <button class="gbtn ${state.view==='feed'?'active':''}" onclick="setView('feed')">Feed</button>
+    <button class="gbtn ${state.view==='clubs'?'active':''}" onclick="setView('clubs')">Clubs</button>
+    ${state.isClub?`<button class="gbtn ${state.view==='compose'?'active':''}" onclick="setView('compose')">+ Post</button>`:""}
+    <div style="flex:1;"></div>
+    <div class="flex items-center gap-8">
+      ${identityHTML}
+      <button class="nav-logout" onclick="doLogout()">Log out</button>
+    </div>
+  </nav>`;
+}
+
+function setView(v){ state.view=v; re(); }
+function goProfile(id){ state.profileClubId=id; state.view="profile"; re(); }
+function doLogout(){ state.activeUser=null; state.isClub=false; state.view="feed"; state.loginMode="choose"; state.loginPw=""; state.loginError=""; state.loginStudentName=""; state.loginStudentPw=""; re(); }
+
+// ─── FEED ─────────────────────────────────────────────────────────────────────
+function renderFeed(){
+  return `<div class="mb-24">
+    <div class="serif fs-28 fw-700">Wednesday Activities</div>
+    <div class="fs-13 mt-4" style="color:#3A4E70;">Feb 19, 2026 — See what every club is planning</div>
+  </div>
+  ${state.posts.length===0?`<div class="text-center fs-14" style="color:#3A4E70;padding:48px 0;">No posts yet this week.</div>`:""}
+  ${state.posts.map(p=>renderPostCard(p)).join("")}`;
+}
+
+function renderPostCard(post){
+  const club=getClub(post.clubId); if(!club) return "";
+  const mk=myKey();
+  const myR=post.userReactions[mk];
+  const isOwner=state.isClub&&state.activeUser.id===post.clubId;
+  const isExpanded=state.expandedComments[post.id];
+
+  const imagesHTML = post.images&&post.images.length>0 ? `
+    <div class="post-img-grid ${post.images.length===1?'one':post.images.length===2?'two':'three'}">
+      ${post.images.map(src=>`<img src="${src}" alt=""/>`).join("")}
+    </div>` : "";
+
+  const linkHTML = post.link&&isValidUrl(post.link) ? `
+    <a href="${post.link}" target="_blank" class="link-prev">
+      <span style="font-size:20px;">🔗</span>
+      <div style="flex:1;min-width:0;overflow:hidden;">
+        <div class="fs-13 fw-600" style="color:#F97316;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${post.link}</div>
+        <div class="fs-11 muted mt-4">External link · click to open</div>
+      </div>
+      <span style="color:#3A4E70;font-size:16px;">↗</span>
+    </a>` : "";
+
+  const reactionsHTML = REACTIONS.map(e=>`
+    <button class="react-btn ${myR===e?'active':''}" onclick="doReact(${post.id},'${e}')"
+      style="${myR===e?'border-color:#F97316;':''}">
+      ${e}${post.reactions[e]?`<span style="color:#3A4E70;font-size:12px;">${post.reactions[e]}</span>`:""}
+    </button>`).join("");
+
+  const commentsHTML = isExpanded ? `
+    <div id="comments-${post.id}">
+      ${post.comments.map(c=>{
+        const info=authorHTML(c,30); if(!info) return "";
+        const canDel=(state.isClub&&`club-${state.activeUser.id}`===c.authorId)||(!state.isClub&&state.activeUser.id===c.authorId)||isOwner;
+        return `<div class="crow">
+          ${info.av}
+          <div style="flex:1;">
+            <div class="fs-12 fw-600 mb-4" style="color:${info.color};">${info.name} <span style="color:#3A4E70;font-weight:400;">· ${c.time}</span></div>
+            <div class="fs-14" style="color:#C8D8F8;">${c.text}</div>
+          </div>
+          ${canDel?`<button class="del-btn" onclick="doDeleteComment(${post.id},${c.id})">🗑</button>`:""}
+        </div>`;}).join("")}
+      <div class="flex items-center gap-8 mt-12">
+        ${activeAvatarHTML(30)}
+        <input class="ifield" placeholder="Write a comment..." id="cmt-${post.id}"
+          value="${(state.commentDrafts[post.id]||'').replace(/"/g,'&quot;')}"
+          oninput="state.commentDrafts[${post.id}]=this.value;"
+          onkeydown="if(event.key==='Enter')doComment(${post.id})"/>
+        <button class="obtn" style="white-space:nowrap;padding:9px 16px;" onclick="doComment(${post.id})">Send</button>
+      </div>
+    </div>` : "";
+
+  return `<div class="card">
+    <div class="flex items-start gap-12 mb-14">
+      <div onclick="goProfile(${club.id})" style="cursor:pointer;">${clubAvatarHTML(club,44)}</div>
+      <div style="flex:1;min-width:0;">
+        <div class="fs-13 fw-600" style="color:${club.color};cursor:pointer;" onclick="goProfile(${club.id})">${club.name}</div>
+        <div class="serif fs-20 fw-700" style="line-height:1.3;margin-top:2px;">${post.title}</div>
+      </div>
+      <div class="flex items-center gap-8 shrink-0">
+        <div style="text-align:right;">
+          <div class="fs-12 fw-600" style="color:#F97316;">${post.time}</div>
+          <div class="fs-11 muted mt-4">📍 ${post.location}</div>
+        </div>
+        ${isOwner?`<button class="del-btn" onclick="doDeletePost(${post.id})">🗑</button>`:""}
+      </div>
+    </div>
+    <p class="fs-14 lh-7" style="color:#8A9BBF;">${post.description}</p>
+    ${imagesHTML}${linkHTML}
+    <div class="reactions-row">${reactionsHTML}</div>
+    <div class="fs-13 muted" style="cursor:pointer;margin-bottom:8px;user-select:none;" onclick="toggleComments(${post.id})">
+      💬 ${post.comments.length} comment${post.comments.length!==1?"s":""} ${isExpanded?"▲":"▼"}
+    </div>
+    ${commentsHTML}
+  </div>`;
+}
+
+function toggleComments(pid){ state.expandedComments[pid]=!state.expandedComments[pid]; re(); }
+
+function doReact(postId, emoji){
+  const mk=myKey();
+  const post=state.posts.find(p=>p.id===postId); if(!post) return;
+  const already=post.userReactions[mk]===emoji;
+  const prev=post.userReactions[mk];
+  if(prev){ post.reactions[prev]=(post.reactions[prev]||1)-1; if(post.reactions[prev]<=0)delete post.reactions[prev]; }
+  if(already){ delete post.userReactions[mk]; }
+  else{ post.reactions[emoji]=(post.reactions[emoji]||0)+1; post.userReactions[mk]=emoji; }
+  re();
+}
+
+function doComment(postId){
+  const input=document.getElementById(`cmt-${postId}`);
+  const text=(input?input.value:(state.commentDrafts[postId]||"")).trim();
+  if(!text) return;
+  const post=state.posts.find(p=>p.id===postId); if(!post) return;
+  const authorId=state.isClub?`club-${state.activeUser.id}`:state.activeUser.id;
+  post.comments.push({id:Date.now(),authorId,authorType:state.isClub?"club":"student",text,time:"just now"});
+  state.commentDrafts[postId]="";
+  state.expandedComments[postId]=true;
+  showNotif("Comment posted!"); re();
+}
+
+function doDeletePost(pid){ state.posts=state.posts.filter(p=>p.id!==pid); showNotif("Post deleted."); re(); }
+function doDeleteComment(pid,cid){
+  const post=state.posts.find(p=>p.id===pid); if(!post) return;
+  post.comments=post.comments.filter(c=>c.id!==cid);
+  showNotif("Comment deleted."); re();
+}
+
+// ─── CLUBS DIRECTORY ─────────────────────────────────────────────────────────
+function renderClubsDir(){
+  return `<div class="serif fs-26 fw-700 mb-4">All Clubs</div>
+  <div class="fs-13 muted mb-22">${state.clubs.length} clubs on campus</div>
+  <div class="dir-grid">
+    ${state.clubs.map(club=>{
+      const cp=state.posts.filter(p=>p.clubId===club.id).length;
+      const isMe=state.isClub&&state.activeUser.id===club.id;
+      return `<div class="dir-card" style="--c:${club.color};border-color:${isMe?club.color+'55':'#1A2740'};"
+          onclick="goProfile(${club.id})"
+          onmouseenter="this.style.borderColor='${club.color}88'"
+          onmouseleave="this.style.borderColor='${isMe?club.color+'55':'#1A2740'}'">
+        <div class="dir-corner" style="background:${club.color};"></div>
+        <div class="flex items-center gap-12 mb-12">
+          ${clubAvatarHTML(club,46)}
+          <div>
+            <div class="fw-600 fs-14">${club.name}</div>
+            ${isMe?`<div class="fs-11 mt-4" style="color:#F97316;">● You</div>`:""}
+          </div>
+        </div>
+        <div class="fs-12 muted lh-5 mb-12">${club.bio.slice(0,70)}…</div>
+        <div class="flex gap-8 mb-10" style="flex-wrap:wrap;">
+          ${club.tags.map(t=>`<span class="pill tag-pill">${t}</span>`).join("")}
+        </div>
+        <div class="fs-11 muted">${cp} post${cp!==1?"s":""} this week</div>
+      </div>`;}).join("")}
+  </div>`;
+}
+
+// ─── PROFILE ─────────────────────────────────────────────────────────────────
+function renderProfile(){
+  const club=state.clubs.find(c=>c.id===state.profileClubId); if(!club) return "";
+  const clubPosts=state.posts.filter(p=>p.clubId===club.id);
+  const totalR=clubPosts.reduce((a,p)=>a+Object.values(p.reactions).reduce((s,v)=>s+v,0),0);
+  const totalC=clubPosts.reduce((a,p)=>a+p.comments.length,0);
+  const isOwner=state.isClub&&state.activeUser.id===club.id;
+
+  return `<button class="bbtn" onclick="setView('feed')">← Back to feed</button>
+  <div class="cover-box" style="height:170px;background:${club.cover?'none':club.coverGradient};${club.cover?`background-image:url(${club.cover});`:''}">
+    <div class="cover-emoji">${club.emoji}</div>
+    ${isOwner?`<label class="cover-btn" for="cover-upload">📷 Change cover</label>
+    <input type="file" id="cover-upload" accept="image/*" style="display:none;" onchange="handleCoverUpload(event,${club.id})">`:""}
+  </div>
+  <div class="profile-id">
+    <div class="avatar-edit-wrap">
+      <div style="border:3px solid #080E1E;border-radius:20px;display:inline-block;">
+        ${clubAvatarHTML(club,82)}
+      </div>
+      ${isOwner?`<label class="avatar-edit-btn" for="avatar-upload" style="cursor:pointer;">✏️</label>
+      <input type="file" id="avatar-upload" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event,${club.id})">`:""}
+    </div>
+    <div style="flex:1;padding-bottom:6px;">
+      <div class="serif fs-26 fw-700">${club.name}</div>
+      <div class="fs-12 muted mt-4">President: <span style="color:#8A9BBF;">${club.president}</span> · Founded ${club.founded}</div>
+    </div>
+    ${isOwner?`<span class="you-badge">Your Club</span>`:""}
+  </div>
+  <div class="flex gap-8 mb-14" style="flex-wrap:wrap;padding:0 4px;">
+    ${club.tags.map(t=>`<span class="pill tag-pill">${t}</span>`).join("")}
+  </div>
+  <p class="fs-14 lh-7 mb-22" style="color:#8A9BBF;padding:0 4px;">${club.bio}</p>
+  <div class="stat-grid">
+    ${[["Posts",clubPosts.length],["Reactions",totalR],["Comments",totalC]].map(([l,v])=>`
+      <div class="stat-box">
+        <div class="serif fw-700" style="font-size:24px;color:#F97316;">${v}</div>
+        <div class="fs-11 muted mt-4">${l}</div>
+      </div>`).join("")}
+  </div>
+  <div class="serif fs-20 fw-700 mb-14">Wednesday Posts</div>
+  ${clubPosts.length===0?`<div class="fs-14 muted text-center" style="padding:32px 0;">No posts this week yet.</div>`:""}
+  ${clubPosts.map(p=>renderPostCard(p)).join("")}`;
+}
+
+function handleAvatarUpload(e, clubId){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const club=state.clubs.find(c=>c.id===clubId); if(club) club.avatar=ev.target.result;
+    if(state.isClub&&state.activeUser.id===clubId) state.activeUser.avatar=ev.target.result;
+    showNotif("Avatar updated!"); re();
+  };
+  reader.readAsDataURL(file);
+}
+function handleCoverUpload(e, clubId){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const club=state.clubs.find(c=>c.id===clubId); if(club) club.cover=ev.target.result;
+    showNotif("Cover updated!"); re();
+  };
+  reader.readAsDataURL(file);
+}
+
+// ─── COMPOSE ─────────────────────────────────────────────────────────────────
+function renderCompose(){
+  const cc=currentClub()||state.activeUser;
+  const f=state.composeForm;
+  return `<div class="serif fs-26 fw-700 mb-4">Post Wednesday Activity</div>
+  <div class="fs-13 muted mb-24">Posting as <span class="fw-600" style="color:${cc.color};">${cc.name}</span></div>
+  <div class="flex gap-14 items-start">
+    <div style="flex-shrink:0;">${clubAvatarHTML(cc,46)}</div>
+    <div class="flex flex-col gap-12" style="flex:1;">
+      <input class="ifield" placeholder="Activity title *" value="${f.title.replace(/"/g,'&quot;')}"
+        oninput="state.composeForm.title=this.value;"/>
+      <textarea class="ifield" rows="4" placeholder="Describe the activity — who can join, what to bring..."
+        oninput="state.composeForm.description=this.value;">${f.description}</textarea>
+      <div class="flex gap-10">
+        <input class="ifield" placeholder="⏰ Time (e.g. 5:00 PM)" value="${f.time.replace(/"/g,'&quot;')}"
+          oninput="state.composeForm.time=this.value;"/>
+        <input class="ifield" placeholder="📍 Location" value="${f.location.replace(/"/g,'&quot;')}"
+          oninput="state.composeForm.location=this.value;"/>
+      </div>
+      <input class="ifield" placeholder="🔗 Add a link (optional)" value="${f.link.replace(/"/g,'&quot;')}"
+        oninput="state.composeForm.link=this.value;renderLinkPreview();"/>
+      <div id="compose-link-preview"></div>
+      <div>
+        <div class="fs-12 muted mb-8">📷 Photos (optional, up to 4)</div>
+        <div class="upload-strip" id="upload-strip">
+          ${f.images.map((src,i)=>`
+            <div class="upload-thumb">
+              <img src="${src}"/>
+              <button class="rm" onclick="removeImg(${i})">✕</button>
+            </div>`).join("")}
+          ${f.images.length<4?`<div class="add-img-btn" onclick="document.getElementById('compose-img-input').click();">
+            <span style="font-size:20px;">+</span><span>Photo</span>
+          </div>`:""}
+        </div>
+        <input type="file" id="compose-img-input" accept="image/*" multiple style="display:none;"
+          onchange="addComposeImages(event)"/>
+      </div>
+      <div class="flex gap-10 mt-4">
+        <button class="obtn" onclick="doPost()">Publish Activity</button>
+        <button class="gbtn" onclick="setView('feed')">Cancel</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderLinkPreview(){
+  const el=document.getElementById("compose-link-preview"); if(!el) return;
+  const link=state.composeForm.link;
+  if(link&&isValidUrl(link))
+    el.innerHTML=`<div style="display:flex;align-items:center;gap:8px;background:#111E35;border:1px solid #1A2740;border-radius:10px;padding:10px 14px;margin-top:-4px;">
+      <span>🔗</span><span class="fs-12 fw-600" style="color:#F97316;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;">${link}</span></div>`;
+  else el.innerHTML="";
+}
+
+function addComposeImages(e){
+  const files=Array.from(e.target.files);
+  let remaining=4-state.composeForm.images.length;
+  files.slice(0,remaining).forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=ev=>{ state.composeForm.images.push(ev.target.result); re(); };
+    reader.readAsDataURL(file);
+  });
+  e.target.value="";
+}
+function removeImg(i){ state.composeForm.images.splice(i,1); re(); }
+
+function doPost(){
+  const f=state.composeForm;
+  if(!f.title||!f.description){ showNotif("Please fill in title and description."); return; }
+  state.posts.unshift({
+    id:Date.now(), clubId:state.activeUser.id,
+    title:f.title, description:f.description,
+    time:f.time||"TBD", location:f.location||"TBD",
+    date:"Wed, Feb 19", images:[...f.images], link:f.link,
+    reactions:{}, userReactions:{}, comments:[]
+  });
+  state.composeForm={title:"",description:"",time:"",location:"",link:"",images:[]};
+  state.view="feed";
+  showNotif("Activity posted! 🎉"); re();
+}
+
+// ─── BIND ─────────────────────────────────────────────────────────────────────
+function bindApp(){ renderLinkPreview(); }
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
